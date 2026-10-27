@@ -1,0 +1,337 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SeedFlow | Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f4ed;
+            color: #183326;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #285c3b;
+            color: white;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .user-email {
+            font-size: 13px;
+            overflow-wrap: anywhere;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 11px 16px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #285c3b;
+            font-weight: bold;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 20px 35px;
+        }
+
+        .welcome-box {
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+            border-left: 5px solid #8ba84a;
+            box-shadow: 0 5px 20px rgba(24, 51, 38, 0.06);
+        }
+
+        .role-label {
+            color: #52764c;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: clamp(26px, 4vw, 36px);
+            margin-bottom: 12px;
+        }
+
+        .welcome-box p:last-child {
+            color: #647168;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            margin-top: 32px;
+            margin-bottom: 17px;
+            font-size: 23px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 23px;
+            box-shadow: 0 5px 20px rgba(24, 51, 38, 0.06);
+            border: 1px solid #e6eadd;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-height: 225px;
+        }
+
+        .card-icon {
+            font-size: 34px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            color: #285c3b;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #68746b;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .open-btn {
+            background: #285c3b;
+            color: white;
+            font-weight: bold;
+        }
+
+        .open-btn:hover {
+            background: #1d472d;
+        }
+
+        .home-link {
+            display: inline-block;
+            margin-top: 28px;
+            color: #285c3b;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .home-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 16px 5%;
+            }
+
+            .header-right {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            main {
+                margin-top: 22px;
+            }
+
+            .welcome-box {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">🌱 SeedFlow</div>
+
+        <div class="header-right">
+            <span class="user-email" id="userEmail"></span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="welcome-box">
+            <div class="role-label" id="roleLabel">Seed Production Portal</div>
+            <h1 id="welcome">Welcome to SeedFlow</h1>
+            <p>
+                Manage farm details, crop progress, seed production,
+                quality checks and payments from one place.
+            </p>
+        </section>
+
+        <h2 class="section-title">Your Workspace</h2>
+
+        <section class="cards" id="cards"></section>
+
+        <a class="home-link" href="index.html">← Back to Home</a>
+    </main>
+
+    <script>
+        // Get login information
+        const role = sessionStorage.getItem("seedflowRole");
+        const email = sessionStorage.getItem("seedflowEmail");
+
+        // Redirect to login if user is not logged in
+        if (!role || !email) {
+            window.location.replace("login.html");
+        } else {
+            showDashboard();
+        }
+
+        function showDashboard() {
+            document.getElementById("roleLabel").textContent =
+                role + " Dashboard";
+
+            document.getElementById("welcome").textContent =
+                "Welcome, " + role + "!";
+
+            document.getElementById("userEmail").textContent = email;
+
+            let items = [];
+
+            if (role === "Farmer") {
+                items = [
+                    {
+                        icon: "🌱",
+                        title: "My Farm",
+                        description: "Add and view your farm and plot details.",
+                        page: "my-farm.html"
+                    },
+                    {
+                        icon: "🌿",
+                        title: "Crop Progress",
+                        description: "Track crop growth and pollination.",
+                        page: "crop-progress.html"
+                    },
+                    {
+                        icon: "📦",
+                        title: "Seed Production",
+                        description: "Track harvesting, extraction and drying.",
+                        page: "seed-production.html"
+                    },
+                    {
+                        icon: "💰",
+                        title: "My Payments",
+                        description: "Check seed weight and payment status.",
+                        page: "my-payments.html"
+                    }
+                ];
+            } else if (role === "Company") {
+                items = [
+                    {
+                        icon: "👨‍🌾",
+                        title: "Farmers",
+                        description: "View and manage farmer information.",
+                        page: "farmers.html"
+                    },
+                    {
+                        icon: "🌱",
+                        title: "Production Batches",
+                        description: "Monitor plots and crop production.",
+                        page: "production-batches.html"
+                    },
+                    {
+                        icon: "🔬",
+                        title: "Quality Checks",
+                        description: "Review germination, purity and inspection.",
+                        page: "quality-checks.html"
+                    },
+                    {
+                        icon: "💰",
+                        title: "Payments",
+                        description: "Review seed weights and farmer payments.",
+                        page: "payments.html"
+                    }
+                ];
+            } else {
+                document.getElementById("welcome").textContent =
+                    "Welcome to SeedFlow!";
+
+                items = [
+                    {
+                        icon: "🏠",
+                        title: "Home",
+                        description: "Return to the SeedFlow home page.",
+                        page: "index.html"
+                    },
+                    {
+                        icon: "🌱",
+                        title: "My Farm",
+                        description: "Open your farm details.",
+                        page: "my-farm.html"
+                    }
+                ];
+            }
+
+            const cardsContainer = document.getElementById("cards");
+
+            cardsContainer.innerHTML = items.map(function(item) {
+                return `
+                    <article class="card">
+                        <div class="card-icon">${item.icon}</div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                        <button
+                            class="open-btn"
+                            onclick="openPage('${item.page}')">
+                            Open Page →
+                        </button>
+                    </article>
+                `;
+            }).join("");
+        }
+
+        function openPage(page) {
+            window.location.href = page;
+        }
+
+        function logout() {
+            sessionStorage.removeItem("seedflowRole");
+            sessionStorage.removeItem("seedflowEmail");
+
+            window.location.href = "login.html";
+        }
+    </script>
+
+</body>
+</html>
+```

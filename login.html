@@ -1,0 +1,468 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | SeedFlow</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "DM Sans", sans-serif;
+            background: #eef1e9;
+            color: #183326;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(24, 51, 38, 0.12);
+        }
+
+        .visual {
+            min-height: 620px;
+            position: relative;
+            background:
+                linear-gradient(to top, rgba(15, 45, 25, 0.85), rgba(15, 45, 25, 0.05)),
+                url("https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?auto=format&fit=crop&w=1200&q=85");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding: 40px;
+            color: white;
+        }
+
+        .visual h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 43px;
+            line-height: 1.15;
+            margin: 15px 0;
+        }
+
+        .visual p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #e5eee4;
+        }
+
+        .mini-logo {
+            font-size: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .login-area {
+            padding: 50px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 23px;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .brand-icon {
+            background: #285c3b;
+            color: white;
+            padding: 9px;
+            border-radius: 10px;
+        }
+
+        .login-heading {
+            font-family: "Playfair Display", serif;
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #718078;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .role-title, label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #53635a;
+            margin-bottom: 9px;
+        }
+
+        .roles {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 23px;
+        }
+
+        .role {
+            padding: 14px 8px;
+            border: 1px solid #dfe6df;
+            border-radius: 12px;
+            background: #f7f8f4;
+            cursor: pointer;
+            text-align: center;
+            font-family: inherit;
+            color: #183326;
+        }
+
+        .role.active {
+            background: #e5eee4;
+            border: 2px solid #285c3b;
+            color: #285c3b;
+        }
+
+        .role-icon {
+            display: block;
+            font-size: 23px;
+            margin-bottom: 5px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #dfe5df;
+            border-radius: 11px;
+            background: #fafbf8;
+            color: #183326;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #6d9476;
+            box-shadow: 0 0 0 3px rgba(77, 117, 87, 0.08);
+        }
+
+        .input-box input.password-field {
+            padding-right: 48px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin: 5px 0 24px;
+            font-size: 12px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .remember input {
+            accent-color: #285c3b;
+        }
+
+        .forgot {
+            color: #285c3b;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background: #285c3b;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #183f28;
+        }
+
+        .message {
+            display: none;
+            margin-top: 14px;
+            font-size: 13px;
+            color: #b42318;
+            line-height: 1.5;
+        }
+
+        .register {
+            text-align: center;
+            margin-top: 22px;
+            color: #758078;
+            font-size: 13px;
+        }
+
+        .register a,
+        .back-home a {
+            color: #285c3b;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 760px) {
+            .login-wrapper {
+                max-width: 480px;
+                grid-template-columns: 1fr;
+            }
+
+            .visual {
+                min-height: 220px;
+                padding: 25px;
+            }
+
+            .visual h2 {
+                font-size: 30px;
+            }
+
+            .login-area {
+                padding: 32px 25px;
+            }
+
+            .brand {
+                margin-bottom: 25px;
+            }
+
+            .login-heading {
+                font-size: 33px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="login-wrapper">
+
+        <section class="visual">
+            <div>
+                <div class="mini-logo">🌱</div>
+                <h2>Grow smarter.<br>Flow better.</h2>
+                <p>
+                    One connected platform for seed companies,
+                    farmers and quality teams.
+                </p>
+            </div>
+        </section>
+
+        <section class="login-area">
+
+            <div class="brand">
+                <div class="brand-icon">🌱</div>
+                SeedFlow
+            </div>
+
+            <h1 class="login-heading">Welcome back.</h1>
+            <p class="subtitle">
+                Sign in to continue managing your seed journey.
+            </p>
+
+            <div class="role-title">Continue as</div>
+
+            <div class="roles">
+                <button type="button" class="role active"
+                    onclick="selectRole(this, 'Farmer')">
+                    <span class="role-icon">👨‍🌾</span>
+                    Farmer
+                </button>
+
+                <button type="button" class="role"
+                    onclick="selectRole(this, 'Company')">
+                    <span class="role-icon">🏢</span>
+                    Company
+                </button>
+            </div>
+
+            <form id="loginForm">
+
+                <div class="input-group">
+                    <label for="email">Email address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+
+                    <div class="input-box">
+                        <input
+                            type="password"
+                            id="password"
+                            class="password-field"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword()"
+                            id="eye"
+                            aria-label="Show or hide password">👁</button>
+                    </div>
+                </div>
+
+                <div class="options">
+                    <label class="remember">
+                        <input type="checkbox" id="remember">
+                        Remember me
+                    </label>
+
+                    <a href="#" class="forgot"
+                        onclick="forgotPassword(event)">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-button">
+                    Login to SeedFlow →
+                </button>
+
+                <p class="message" id="message" role="alert"></p>
+
+            </form>
+
+            <div class="register">
+                Don't have an account?
+                <a href="#" onclick="createAccount(event)">Create account</a>
+            </div>
+
+            <div class="back-home">
+                <a href="index.html">← Back to Home</a>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        let selectedRole = "Farmer";
+
+        function selectRole(element, role) {
+            document.querySelectorAll(".role").forEach(function(button) {
+                button.classList.remove("active");
+            });
+
+            element.classList.add("active");
+            selectedRole = role;
+        }
+
+        function togglePassword() {
+            const password = document.getElementById("password");
+            const eye = document.getElementById("eye");
+
+            if (password.type === "password") {
+                password.type = "text";
+                eye.textContent = "🙈";
+            } else {
+                password.type = "password";
+                eye.textContent = "👁";
+            }
+        }
+
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const message = document.getElementById("message");
+
+            message.style.display = "none";
+            message.textContent = "";
+
+            if (!email || !password.trim()) {
+                message.textContent = "Please enter your email and password.";
+                message.style.display = "block";
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                message.textContent = "Please enter a valid email address.";
+                message.style.display = "block";
+                return;
+            }
+
+            // Demo login only. This does not verify credentials.
+            sessionStorage.setItem("seedflowRole", selectedRole);
+            sessionStorage.setItem("seedflowEmail", email);
+
+            window.location.href = "dashboard.html";
+        });
+
+        function forgotPassword(event) {
+            event.preventDefault();
+            alert("Password reset is not connected yet. Please contact your administrator.");
+        }
+
+        function createAccount(event) {
+            event.preventDefault();
+            alert("Account registration is not connected yet.");
+        }
+    </script>
+
+</body>
+</html>
+```
